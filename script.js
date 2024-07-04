@@ -6,27 +6,46 @@ window.onload = function (){
 
     testFunc(); //Fazendo testes separados da função e printando os valores no console do navegador.
 
+    clearInputs(); //Limpar os campos de entrada na hora de iniciar
+
     document.getElementById('bttCalc').addEventListener("click", function () {
 
         weight = parseFloat(document.getElementById('weightBox').value);
         height = parseFloat(document.getElementById('heightBox').value);
         imc = calcIMC(weight,height).toFixed(2);
-        if(imc != 0){      //Verificando se o IMC foi calculado corretamente
+        if(imc > 0){      //Verificando se o IMC foi calculado corretamente
             document.getElementById('valueIMC').innerHTML = imc;
             document.getElementById('checkIMC').innerHTML = checkIMC(imc);
             setProgressBar(imc);
         }
-        else{
+        else if(imc < 0){ //Verificação para caso a altura tenha sido digitada incorretamente
+            document.getElementById('valueIMC').innerHTML = "Ops. Você colocou a altura em cm. Vamos corrigir isso? ";
+        }
+        else{ //Verficicação para caso algum valor não seja numérico ou negativo
             document.getElementById('valueIMC').innerHTML = "Ops. Você digitou algum campo errado. Tente novamente";
         }
     });
 }
 
+//Função para limpar os campos de entrada
+function clearInputs() {
+    weight = document.getElementById('weightBox').value = "";
+    height = document.getElementById('heightBox').value = "";
+}
+
+
 //Função para calcular o valor do IMC e fazer o tratamento dos dados de entrada
 function calcIMC(weight, height) {
     imc = weight / (height ** 2);
-    if(( isNaN(imc)) || (height == 0) ){        //Verificação se os dados de entrada são válidos (se são números e se a altura é diferente de 0).
+    if(( isNaN(imc)) || (height == 0) ){        //Verificação se os dados de entrada são inválidos (se não são números e se a altura é diferente de 0).
         return 0;
+    }
+    else if((weight < 0) || (height < 0)){      //Verificação se os dados de entrada são negativos
+        return 0;
+    }
+    //O valor 3 foi escolhido arbitrariamente, pois dificilmente alguém (acho que nem existe) teria 3 metros de altura.
+    else if(height >= 3){ //Validando se a altura foi colocada em metros ou cm (No caso, ela deve ser colocada em m para o calculo ser valido)
+        return -1;
     }
     else {
         imc = weight / (height ** 2);
@@ -91,7 +110,7 @@ function setProgressBar(imc) {
 }
   
 
-//Função para valores de teste do programa
+//Função para testar o calculo do ICM com valores de peso e altura diferentes.
 function testFunc() {
 
 
