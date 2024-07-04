@@ -1,4 +1,4 @@
-//Iniciando o programa
+// ============================================= Função MAIN ==========================================================
 window.onload = function (){
     imc = 0;
     weight = 0;
@@ -8,54 +8,66 @@ window.onload = function (){
 
     clearInputs(); //Limpar os campos de entrada na hora de iniciar
 
+//Recebendo e tratando visualmente os dados recebidos
+    weightBox = document.getElementById('weightBox');
+    heightBox = document.getElementById('heightBox');
+
+    debug("Hi there");
+
+    //Validando o valor do peso
+    weightBox.addEventListener('focusout', function () {
+        weight = getWeight(); //Recebendo o valor do peso
+        validateWeight(weight);
+    });
+
+    //Validando o valor da altura
+    heightBox.addEventListener('focusout', function () {
+        height = getHeight();
+        validateHeight(height);
+    });
+
+//Calculando e validando o valor do IMC
     document.getElementById('bttCalc').addEventListener("click", function () {
 
-        weight = parseFloat(document.getElementById('weightBox').value);
-        height = parseFloat(document.getElementById('heightBox').value);
-        imc = calcIMC(weight,height).toFixed(2);
-        if(imc > 0){      //Verificando se o IMC foi calculado corretamente
+        imc = validateIMC(weight,height).toFixed(2); //Calculando IMC
+        //Validando IMC
+        if(imc == 0){                                                       //Verificação para caso o peso tenha sido colocado incorretamente
+            document.getElementById('valueIMC').innerHTML = "Ops. Você digitou o peso errado. Vamos corrigir isso? ";
+        }
+        else if(imc == -1){                                                 //Verificação para caso a altura tenha sido colocada incorretamente
+            document.getElementById('valueIMC').innerHTML = "Ops. Você digitou a altura errada. Vamos corrigir isso? ";      
+        }
+        else if(imc == -2){                                                 //Verificação para caso a altura tenha sido colocada em cm
+            document.getElementById('valueIMC').innerHTML = "Ops. Você digitou a altura em cm. Vamos corrigir isso? ";      
+        }
+        else{                                                               //Caso o IMC tenha sido calculado corretamente
             document.getElementById('valueIMC').innerHTML = imc;
-            document.getElementById('checkIMC').innerHTML = checkIMC(imc);
-            setProgressBar(imc);
-        }
-        else if(imc < 0){ //Verificação para caso a altura tenha sido digitada incorretamente
-            document.getElementById('valueIMC').innerHTML = "Ops. Você colocou a altura em cm. Vamos corrigir isso? ";
-        }
-        else{ //Verficicação para caso algum valor não seja numérico ou negativo
-            document.getElementById('valueIMC').innerHTML = "Ops. Você digitou algum campo errado. Tente novamente";
-        }
+            document.getElementById('checkIMC').innerHTML = classifyIMC(imc);
+            setProgressBar(imc);}
     });
 }
 
-//Função para limpar os campos de entrada
-function clearInputs() {
-    weight = document.getElementById('weightBox').value = "";
-    height = document.getElementById('heightBox').value = "";
+// ====================================================================
+
+// =================================== Funções Principais =======================================================
+
+function getWeight(){
+    return parseFloat(document.getElementById('weightBox').value);
 }
 
+function getHeight(){
+    return parseFloat(document.getElementById('heightBox').value);
+}
 
 //Função para calcular o valor do IMC e fazer o tratamento dos dados de entrada
 function calcIMC(weight, height) {
     imc = weight / (height ** 2);
-    if(( isNaN(imc)) || (height == 0) ){        //Verificação se os dados de entrada são inválidos (se não são números e se a altura é diferente de 0).
-        return 0;
-    }
-    else if((weight < 0) || (height < 0)){      //Verificação se os dados de entrada são negativos
-        return 0;
-    }
-    //O valor 3 foi escolhido arbitrariamente, pois dificilmente alguém (acho que nem existe) teria 3 metros de altura.
-    else if(height >= 3){ //Validando se a altura foi colocada em metros ou cm (No caso, ela deve ser colocada em m para o calculo ser valido)
-        return -1;
-    }
-    else {
-        imc = weight / (height ** 2);
-        
-        return imc;
-    }
+    return imc;
 }
 
+
 //Função para verificar a classificação do IMC (abaixo do peso, peso normal, etc...);
-function checkIMC(imc){
+function classifyIMC(imc){
     imcStatus = "";
     if(imc < 18.5){
         imcStatus = "Abaixo do peso";
@@ -86,11 +98,14 @@ function checkIMC(imc){
  * 
  * imgPercentage: Valor da porcentagem que a barra deve ficar em relação ao IMC calculado.
  * / */
-
 function setProgressBar(imc) {
     imcstatus=  '';
     const refValue =   60;
     imcPercentage = (imc/refValue) * 100;
+    if(imcPercentage > 100){
+        imcPercentage = 100;
+    }
+    
     const progressBar = document.getElementById('loader');
 
 
@@ -108,11 +123,86 @@ function setProgressBar(imc) {
     progressBar.style.width = imcPercentage+'%';
     progressBar.style.backgroundColor = imcStatus;
 }
-  
+// ===========================================================================================================================================
+
+
+// ====================================== Funções DE Validação ===============================================================================
+function validateWeight(value){
+    weightBox = document.getElementById('weightBox');
+    if(value != ""){
+        if((isNumber(value)) && (isPositive(value)) ) {
+            weightBox.style.borderColor = 'green';
+        }
+        else{
+        weightBox.style.borderColor = 'red';
+        }
+    }
+    else{
+        weightBox.style.borderColor = 'none';
+    }
+}
+
+function validateHeight(value){
+    heightBox = document.getElementById('heightBox');
+        if(value != ""){
+            if((isNumber(value)) && (isPositive(value)) ) {
+                heightBox.style.borderColor = 'green';
+            }
+            else{
+                heightBox.style.borderColor = 'red';
+            }
+        }
+        else{
+            heightBox.style.borderColor = 'none';
+        }
+}
+
+
+//Função para validar o IMC
+function validateIMC(weight, height){
+    imc = calcIMC(weight, height); //Calcula o valor do IMC para validação
+
+    if((!isNumber(weight)) || !isPositive(weight) ){          //Verificando se o valor do peso é inválido (Se não é numéro ou um valor não negativo)
+        return 0;
+    }
+    else if ((!isNumber(height)) || !isPositive(height) ){    //Verificando se o valor da altura é inválido (Se não é numéro ou um valor não negativo)
+        return -1;
+    }
+    
+    //O valor 3 foi escolhido arbitrariamente, pois dificilmente alguém (acho que nem existe) teria 3 metros de altura.
+    else if(height >= 3){ //Validando se a altura foi colocada em metros ou cm (No caso, ela deve ser colocada em m para o calculo ser valido)
+        return -2;
+    }
+
+    else {   
+        return imc;
+    }   
+}
+// ===========================================================================================================================================
+
+// ====================================== Funções Auxiliares =================================================================================
+
+//Função para limpar os campos de entrada
+function clearInputs() {
+    document.getElementById('weightBox').value = "";
+    document.getElementById('heightBox').value = "";
+}
+
+//Função para verficar se um valor é um número ou não
+function isNumber(number){
+    return (!isNaN(number));
+}
+
+//Função para verificar se um valor é positivo
+function isPositive(number){
+    return (number > 0);
+}
+// ============================================================================================================================================
+
+// ====================================== Função para Testes ==================================================================================
 
 //Função para testar o calculo do ICM com valores de peso e altura diferentes.
 function testFunc() {
-
 
     weight = ['a', 92, 'Hello', 60.5, 86.8, 120.3, 60.0]; //Valores de teste para o peso
     height = [1.20,'b', 'World', 1.73, 1.80, 1.65, 2.05 ]; // Valores de teste para a altura
@@ -120,8 +210,8 @@ function testFunc() {
     //Verificação de IMC. Cada elemento do array 'weight' corresponderá ao elemento de mesmo indice o array 'height';
     for (let i = 0; i < weight.length; i++) {
         imc = calcIMC(weight[i],height[i]).toFixed(2);
-        if(imc != 0){
-            imcStatus = checkIMC(imc);
+        if(imc > 0){
+            imcStatus = classifyIMC(imc);
             console.log("Para o peso= "+ weight[i]+"Kg e a altura= "+ height[i]+"m, o IMC é: "+ imc + " e a classificação é: "+ imcStatus);
         }
         else{
@@ -129,3 +219,10 @@ function testFunc() {
         }
     }
 }
+
+
+//função para validar o fluxo do códifo 
+function debug(msg){
+    console.log(msg);
+}
+// ===========================================================================================================================================
