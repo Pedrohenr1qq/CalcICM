@@ -16,7 +16,6 @@ body{
     margin-right: auto;
     text-align: justify;
     font-size: 1.2em;
-
 }
 
 .getDatas h1{
@@ -47,6 +46,8 @@ body{
 .getDatas input{
     height: 20px;
     width: 50px;
+    border-radius: 5px;
+    font-size: 15px;
 }
 
 .btt{

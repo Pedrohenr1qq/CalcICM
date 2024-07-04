@@ -1,15 +1,23 @@
 //Iniciando o programa
 window.onload = function (){
     imc = 0;
+    weight = 0;
+    height = 0;
+
+    testFunc(); //Fazendo testes separados da função e printando os valores no console do navegador.
 
     document.getElementById('bttCalc').addEventListener("click", function () {
-        const weight = parseFloat(document.getElementById('weightBox').value);
-        const height = parseFloat(document.getElementById('heightBox').value);
+
+        weight = parseFloat(document.getElementById('weightBox').value);
+        height = parseFloat(document.getElementById('heightBox').value);
         imc = calcIMC(weight,height).toFixed(2);
         if(imc != 0){      //Verificando se o IMC foi calculado corretamente
             document.getElementById('valueIMC').innerHTML = imc;
             document.getElementById('checkIMC').innerHTML = checkIMC(imc);
             setProgressBar(imc);
+        }
+        else{
+            document.getElementById('valueIMC').innerHTML = "Ops. Você digitou algum campo errado. Tente novamente";
         }
     });
 }
@@ -17,8 +25,7 @@ window.onload = function (){
 //Função para calcular o valor do IMC e fazer o tratamento dos dados de entrada
 function calcIMC(weight, height) {
     imc = weight / (height ** 2);
-    if(isNaN(imc)){        //Verificação se os dados de entrada são válidos (se são números).
-        document.getElementById('valueIMC').innerHTML = "Ops. Você digitou algum campo errado. Tente novamente";
+    if(( isNaN(imc)) || (height == 0) ){        //Verificação se os dados de entrada são válidos (se são números e se a altura é diferente de 0).
         return 0;
     }
     else {
@@ -69,16 +76,37 @@ function setProgressBar(imc) {
 
 
     if(imc < 18.5){
-        imcStatus = 'rgb(255,125,0)';
+        imcStatus = 'rgb(255,125,0)'; //abaixo do peso
     }
     else if((imc >= 18.5) && (imc < 24.9) ){
-        imcStatus = 'rgb(0,255,0)';
+        imcStatus = 'rgb(0,255,0)'; //peso ideal
     }
     else if((imc >= 24.9) && (imc < 29.9) ){
-        imcStatus = 'rgb(255,255,0)';
+        imcStatus = 'rgb(255,255,0)'; //sobrepeso
     }else{
-        imcStatus = 'rgb(255,0,0)';
+        imcStatus = 'rgb(255,0,0)'; //obesidade
     }
     progressBar.style.width = imcPercentage+'%';
     progressBar.style.backgroundColor = imcStatus;
+}
+  
+
+//Função para valores de teste do programa
+function testFunc() {
+
+
+    weight = ['a', 92, 'Hello', 60.5, 86.8, 120.3, 60.0]; //Valores de teste para o peso
+    height = [1.20,'b', 'World', 1.73, 1.80, 1.65, 2.05 ]; // Valores de teste para a altura
+
+    //Verificação de IMC. Cada elemento do array 'weight' corresponderá ao elemento de mesmo indice o array 'height';
+    for (let i = 0; i < weight.length; i++) {
+        imc = calcIMC(weight[i],height[i]).toFixed(2);
+        if(imc != 0){
+            imcStatus = checkIMC(imc);
+            console.log("Para o peso= "+ weight[i]+"Kg e a altura= "+ height[i]+"m, o IMC é: "+ imc + " e a classificação é: "+ imcStatus);
+        }
+        else{
+            console.log("Para o peso= "+ weight[i]+"Kg e a altura= "+ height[i]+ "m ,não é possível calcular o IMC ");
+        }
+    }
 }
