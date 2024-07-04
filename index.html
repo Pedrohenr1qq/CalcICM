@@ -3,11 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calcular ICM</title>
+    <title>Calcular IMC</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
 <body>
+
+    <div class="container">
+        <div class="getDatas">
+            <h1>Calculadora de ICM</h1>
+            <p>O IMC é ... <br>Vamos calcular o seu?</p>
+            <form action="." method="get">
+                <div class="item">
+                    <label for="Weight">Informe seu peso (em Kg):</label>
+                    <input type="text" name="Weight" id="weightBox">
+                </div>
+        
+                <div class="item">
+                    <label for="Height">Informe sua altura (em metros):</label>
+                    <input type="text" name="Height" id="heightBox">
+                </div>
+            </form>
+            <button id="bttCalc">Calcular</button>
+        </div>
+
+        <div class="showICM">
+            <div class="imcInfos">
+                <span>IMC:</span>
+                <span id="valueIMC"></span>
+            </div>
+
+            
+
+            <div class="imcInfos">
+                <span>Você está:</span>
+                <span id="checkIMC"></span>
+            </div>
+        </div>
+    </div>
     
+
+
 </body>
 </html>
