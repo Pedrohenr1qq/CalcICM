@@ -4,15 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calcular IMC</title>
+	<link rel="icon" type="image/x-icon" href="images/icmCalc_favicon.ico">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
 <body>
-
+<!-- ================= CONTAINER DIV ======================== -->
     <div class="container">
+<!-- ================= GETDATAS DIV ======================== -->
         <div class="getDatas">
-            <h1>Calculadora de ICM</h1>
-            <p>O IMC é ... <br>Vamos calcular o seu?</p>
+            <h1>Calculadora de IMC</h1>
+            <p>O IMC é uma medida utilizada para avaliar se uma pessoa está dentro de um peso considerável para sua altura. Ele é calculado pela 
+                relação abaixo: <br>
+                <img src="images/IMC_calc_formula.png" alt="calculo do imc">
+ <br>
+                <a href="https://ajuda.treinus.com.br/hc/pt-br/articles/4409201630359-Calculadora-de-IMC" target="_blank">(fonte: https://ajuda.treinus.com.br/hc/pt-br/articles/4409201630359-Calculadora-de-IMC)</a>
+ <br>
+            </p>
+            <p id="titleAsk">Vamos calcular o seu?</p>
             <form action="." method="get">
                 <div class="item">
                     <label for="Weight">Informe seu peso (em Kg):</label>
@@ -24,25 +33,33 @@
                     <input type="text" name="Height" id="heightBox">
                 </div>
             </form>
-            <button id="bttCalc">Calcular</button>
+            <div class="btt">
+                <button id="bttCalc">CALCULAR</button>
+            </div>
         </div>
+<!-- ================= END GETDATAS DIV ======================== -->
 
-        <div class="showICM">
+<!-- ================= SHOWIMC DIV ======================== -->
+
+        <div class="showIMC">
             <div class="imcInfos">
-                <span>IMC:</span>
+                <span>Seu IMC é:</span>
                 <span id="valueIMC"></span>
             </div>
 
-            
+            <div class="imcProgressBar">
+                <div id="loader"></div>
+            </div>
 
             <div class="imcInfos">
                 <span>Você está:</span>
                 <span id="checkIMC"></span>
             </div>
+<!-- ================= END SHOWIMC DIV ======================== -->
         </div>
-    </div>
-    
 
+ <!-- ================= END CONTAINER DIV ======================== -->
+    </div>
 
 </body>
 </html>

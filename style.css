@@ -1,22 +1,72 @@
 body{
-    background-color: #EEEDEB;
+    background-color: #373A40;
     text-align: center;
     margin: 0;
 }
 
-.getDatas, .showICM{
-    background-color: #939185;
+.getDatas, .showIMC{
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #EEEEEE;
     box-shadow: 0 4px 8px 0;
+    border-radius: 5px;
     width: 30%;
-    height: 300px;
+    height: 450px;
     margin-left: auto;
     margin-right: auto;
+    text-align: justify;
+    font-size: 1.2em;
+
 }
 
-.showICM{
-    margin-top: 50px;
-    height: 150px;
+.getDatas h1{
+    text-align: center;
 }
+
+
+#titleAsk{
+    text-align: center;
+}
+
+.getDatas img{
+    width: 100px;
+    height: auto;
+}
+
+.getDatas a{
+    text-decoration: none;
+    font-size: 0.65em;
+    color: black;
+}
+
+.getDatas a:hover{
+    text-decoration:underline;
+    color: blue;
+}
+
+.getDatas input{
+    height: 20px;
+    width: 50px;
+}
+
+.btt{
+    text-align: center;
+}
+
+.getDatas button{
+    margin-top: 20px;
+    border-radius: 10px;
+    width: 100px;
+    height: 50px;
+    color: white;
+    background-color: #373A40;
+}
+
+.showIMC{
+    margin-top: 50px;
+    height: 100px;
+}
+
 
 .imcInfos{
     display: flex;
@@ -24,5 +74,22 @@ body{
 
 .imcInfos span{
     margin-left: 5px;
+}
+
+.imcProgressBar{
+    width: 300px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #EEEEEE   ;
+
+}
+
+#loader{
+    width: 30%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #222;
+    transition: 0.8s;
+
 }
 
