@@ -78,7 +78,7 @@ function classifyIMC(imc){
     else if((imc >= 24.9) && (imc < 29.9) ){
         imcStatus = " Com sobrepeso. ";
     }else{
-        imcStatus = " Com obsedidade. ";
+        imcStatus = " Com obesidade. ";
     }
 
     return imcStatus;
@@ -144,17 +144,17 @@ function validateWeight(value){
 
 function validateHeight(value){
     heightBox = document.getElementById('heightBox');
-        if(value != ""){
-            if((isNumber(value)) && (isPositive(value)) ) {
-                heightBox.style.borderColor = 'green';
-            }
-            else{
-                heightBox.style.borderColor = 'red';
-            }
+    if(value != ""){
+        if((isNumber(value)) && (isPositive(value)) ) {
+            heightBox.style.borderColor = 'green';
         }
         else{
-            heightBox.style.borderColor = 'none';
+            heightBox.style.borderColor = 'red';
         }
+    }
+    else{
+        heightBox.style.borderColor = 'none';
+    }
 }
 
 
